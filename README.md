@@ -26,3 +26,6 @@ Displaying: GPT-4
 Model: GPT-4 | Duration: 2 Weeks
 Error: Parameters cannot be negative!
 ```
+
+## UML Diagram
+![UML Diagram](src/registry/UML-Diagram.png)
