@@ -8,6 +8,7 @@ It demonstrates modern Java features like:
 *   **Method Overloading** (to register models in different ways)
 *   **Switch Expressions** (to check training duration)
 *   **Exception Handling** (to catch errors)
+*   **Functional Interfaces** (using Lambdas to filter data)
 
 ## How Data is Displayed
 The program runs in the console (terminal).
@@ -23,7 +24,10 @@ The program runs in the console (terminal).
 Registered: GPT-4
 Registered via overloading: Llama-3
 Displaying: GPT-4
-Model: GPT-4 | Duration: 2 Weeks
+Model: Gemini-2.0 | Duration: 2 Weeks
+--- Filtering Models ---
+Match found: GPT-4
+Match found: Gemini-2.0
 Error: Parameters cannot be negative!
 ```
 
