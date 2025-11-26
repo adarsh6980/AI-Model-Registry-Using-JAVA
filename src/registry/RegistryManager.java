@@ -82,6 +82,7 @@ public class RegistryManager {
 
         } catch (Exception _) {
             // Unnamed Variable
+            //Java 22 Unnamed Variable
             // We use '_' because we don't care about the variable name here.
             System.out.println("An unknown error occurred.");
         }
