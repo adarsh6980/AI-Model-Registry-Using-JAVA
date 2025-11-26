@@ -86,12 +86,12 @@ public class RegistryManager {
             perplexity.printDetails();
             gemini.printDetails();
 
+            // 7. Test the Advanced Lambda Expression
+            manager.filterAndPrint(m -> m.getName().startsWith("G"));
+
             // 6. Force an error to test Exception Handling
             // (Uncomment the line below to see the error message!)
             manager.register("BadModel", -5, "Unknown");
-
-            // 7. Test the Advanced Lambda Expression
-            manager.filterAndPrint(m -> m.getName().startsWith("G"));
 
         } catch (InvalidModelException e) {
             // Catch the specific error
