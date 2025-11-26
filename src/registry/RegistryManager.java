@@ -2,6 +2,7 @@ package registry;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate; // <--- [Advanced- lambda]
 
 public class RegistryManager {
 
@@ -35,6 +36,19 @@ public class RegistryManager {
                                                  // separated by commas
         for (AIModel m : models) {
             System.out.println("Displaying: " + m.getName());
+        }
+    }
+
+    // [Advanced: Lambdas & Predicate]
+    // This method takes a 'rule' (condition) as a parameter.
+    // It checks every model against that rule.
+    public void filterAndPrint(Predicate<AIModel> condition) {
+        System.out.println("--- Filtering Models ---");
+        for (AIModel m : registry) {
+            // condition.test(m) runs the lambda rule on this model
+            if (condition.test(m)) {
+                System.out.println("Match found: " + m.getName());
+            }
         }
     }
 
@@ -76,13 +90,16 @@ public class RegistryManager {
             // (Uncomment the line below to see the error message!)
             manager.register("BadModel", -5, "Unknown");
 
+            // 7. Test the Advanced Lambda Expression
+            manager.filterAndPrint(m -> m.getName().startsWith("G"));
+
         } catch (InvalidModelException e) {
             // Catch the specific error
             System.out.println("Error: " + e.getMessage());
 
         } catch (Exception _) {
             // Unnamed Variable
-            //Java 22 Unnamed Variable
+            // Java 22 Unnamed Variable
             // We use '_' because we don't care about the variable name here.
             System.out.println("An unknown error occurred.");
         }
