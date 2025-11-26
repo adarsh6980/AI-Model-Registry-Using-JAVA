@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Abstract Class
-public abstract class AIModel implements Computable {
+public abstract sealed class AIModel implements Computable permits LargeLanguageModel { //used Sealed Advanced Feature
 
     // Encapsulation
     private String name;
@@ -23,6 +23,9 @@ public abstract class AIModel implements Computable {
         this.versionHistory.add(1.0);
     }
 
+    public AIModel(String name) { //used Sealed Advanced Feature
+        this(name, ModelType.TEXT);
+    }
     public String getName() {
         return name;
     }

@@ -2,7 +2,7 @@ package registry;
 
 // Inheritance
 // extends AIModel means: "I am taking the Abstract class as a parent"
-public class LargeLanguageModel extends AIModel {
+public final class LargeLanguageModel extends AIModel {
 
     private int parameterCount; // Represents the number of parameters in the large language model.
     private ModelMetadata metadata; // Stores additional, descriptive metadata about the model.
@@ -23,7 +23,7 @@ public class LargeLanguageModel extends AIModel {
         System.out.println("Training " + getName() + " on text data...");
     }
 
-    // HERE is where i finally use 'runInference' from the class Computable!
+    // HERE is where i use 'runInference' from the class Computable!
     @Override
     public void runInference() {
         System.out.println("Generating text response...");
