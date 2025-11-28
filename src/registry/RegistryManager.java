@@ -91,18 +91,20 @@ public class RegistryManager {
             manager.filterAndPrint(m -> m.getName().startsWith("G"));
 
             // 6. Force an error to test Exception Handling
-            // (Uncomment the line below to see the error message!)
-            manager.register("BadModel", -5, "Unknown");
+            // 6. Force an error to test Exception Handling
+            try {
+                manager.register("BadModel", -5, "Unknown");
+            } catch (InvalidModelException e) {
+                System.out.println(ConsoleColors.RED + "Error: " + e.getMessage() + ConsoleColors.RESET);
+            }
 
-        } catch (InvalidModelException e) {
-            // Catch the specific error
-            System.out.println(ConsoleColors.RED + "Error: " + e.getMessage() + ConsoleColors.RESET);
+            throw new RuntimeException("Testing Java 22");
 
         } catch (Exception _) {
             // Unnamed Variable
             // Java 22 Unnamed Variable
             // We use '_' because we don't care about the variable name here.
-            System.out.println("An unknown error occurred.");
+            System.out.println(ConsoleColors.RED + "Java 22 : " + "An unknown error occurred." + ConsoleColors.RESET);
         }
     }
 }
