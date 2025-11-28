@@ -20,13 +20,13 @@ public final class LargeLanguageModel extends AIModel {
     // blank.
     @Override
     public void train() {
-        System.out.println("Training " + getName() + " on text data...");
+        System.out.println(ConsoleColors.PURPLE + "Training " + getName() + " on text data..." + ConsoleColors.RESET);
     }
 
     // HERE is where i use 'runInference' from the class Computable!
     @Override
     public void runInference() {
-        System.out.println("Generating text response...");
+        System.out.println(ConsoleColors.CYAN + "Generating text response..." + ConsoleColors.RESET);
     }
 
     // Switch Expression
@@ -39,6 +39,7 @@ public final class LargeLanguageModel extends AIModel {
     }
 
     public void printDetails() {
-        System.out.println("Model: " + getName() + " | Duration: " + getTrainingDuration());
+        System.out.println(ConsoleColors.CYAN + "Model: " + getName() + " | Duration: " + getTrainingDuration()
+                + ConsoleColors.RESET);
     }
 }

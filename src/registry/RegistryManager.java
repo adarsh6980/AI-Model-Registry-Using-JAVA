@@ -14,7 +14,7 @@ public class RegistryManager {
     // Method 1: Takes a pre-made model object
     public void register(AIModel model) {
         registry.add(model);
-        System.out.println("Registered: " + model.getName());
+        System.out.println(ConsoleColors.GREEN + "Registered: " + model.getName() + ConsoleColors.RESET);
     }
 
     // Method Overloading 2
@@ -28,14 +28,15 @@ public class RegistryManager {
         var metadata = new ModelMetadata(creator, "2024-11-28");
         var model = new LargeLanguageModel(name, params, metadata);
         registry.add(model);
-        System.out.println("Registered via overloading: " + model.getName());
+        System.out
+                .println(ConsoleColors.GREEN + "Registered via overloading: " + model.getName() + ConsoleColors.RESET);
     }
 
     // Varargs
     public void displayMany(AIModel... models) { // The '...' means we can pass 1 model, 2 models, or 100 models
                                                  // separated by commas
         for (AIModel m : models) {
-            System.out.println("Displaying: " + m.getName());
+            System.out.println(ConsoleColors.BLUE + "Displaying: " + m.getName() + ConsoleColors.RESET);
         }
     }
 
@@ -43,11 +44,11 @@ public class RegistryManager {
     // This method takes a 'rule' (condition) as a parameter.
     // It checks every model against that rule.
     public void filterAndPrint(Predicate<AIModel> condition) {
-        System.out.println("--- Filtering Models ---");
+        System.out.println(ConsoleColors.YELLOW_BOLD + "--- Filtering Models ---" + ConsoleColors.RESET);
         for (AIModel m : registry) {
             // condition.test(m) runs the lambda rule on this model
             if (condition.test(m)) {
-                System.out.println("Match found: " + m.getName());
+                System.out.println(ConsoleColors.GREEN + "Match found: " + m.getName() + ConsoleColors.RESET);
             }
         }
     }
@@ -55,7 +56,7 @@ public class RegistryManager {
     // MAIN METHOD: The Entry Point
     public static void main(String[] args) {
         RegistryManager manager = new RegistryManager();
-        System.out.println("--- AI Model Registry Starting ---");
+        System.out.println(ConsoleColors.YELLOW_BOLD + "--- AI Model Registry ---" + ConsoleColors.RESET);
 
         try {
             // 1. Create a Record (Advanced)
@@ -95,7 +96,7 @@ public class RegistryManager {
 
         } catch (InvalidModelException e) {
             // Catch the specific error
-            System.out.println("Error: " + e.getMessage());
+            System.out.println(ConsoleColors.RED + "Error: " + e.getMessage() + ConsoleColors.RESET);
 
         } catch (Exception _) {
             // Unnamed Variable
