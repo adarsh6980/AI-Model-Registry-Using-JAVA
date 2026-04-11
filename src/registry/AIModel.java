@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Abstract Class
-public abstract sealed class AIModel implements Computable permits LargeLanguageModel { //used Sealed Advanced Feature
+public abstract sealed class AIModel implements Computable permits LargeLanguageModel { // used Sealed Advanced Feature
 
     // Encapsulation
     private String name;
 
-    // I used 'protected' so the Child class can see this and use it for the Switch case
+    // I used 'protected' so the Child class can see this and use it for the Switch
+    // case
     protected ModelType type;
 
     // Java Core API
@@ -23,9 +24,10 @@ public abstract sealed class AIModel implements Computable permits LargeLanguage
         this.versionHistory.add(1.0);
     }
 
-    public AIModel(String name) { //used Sealed Advanced Feature
+    public AIModel(String name) { // used Sealed Advanced Feature
         this(name, ModelType.TEXT);
     }
+
     public String getName() {
         return name;
     }

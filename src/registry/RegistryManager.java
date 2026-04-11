@@ -1,5 +1,6 @@
 package registry;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate; // <--- [Advanced- lambda]
@@ -25,7 +26,7 @@ public class RegistryManager {
         }
 
         // LVTI: Using 'var' to let Java guess the type
-        var metadata = new ModelMetadata(creator, "2024-11-28");
+        var metadata = new ModelMetadata(creator, LocalDate.now()); // Date-Time API
         var model = new LargeLanguageModel(name, params, metadata);
         registry.add(model);
         System.out
@@ -60,7 +61,7 @@ public class RegistryManager {
 
         try {
             // 1. Create a Record (Advanced)
-            var meta = new ModelMetadata("OpenAI", "2023-01-01");
+            var meta = new ModelMetadata("OpenAI", LocalDate.now()); // Date-Time API
 
             // 2. Create a Class (Fundamental)
             LargeLanguageModel gpt4 = new LargeLanguageModel("GPT-4", 1000, meta);
@@ -90,7 +91,6 @@ public class RegistryManager {
             // 7. Test the Advanced Lambda Expression
             manager.filterAndPrint(m -> m.getName().startsWith("G"));
 
-            // 6. Force an error to test Exception Handling
             // 6. Force an error to test Exception Handling
             try {
                 manager.register("BadModel", -5, "Unknown");
