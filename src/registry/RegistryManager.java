@@ -5,9 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Predicate; // <--- [Advanced- lambda]
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Gatherers;
 import java.util.Comparator;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class RegistryManager {
 
@@ -121,10 +126,48 @@ public class RegistryManager {
 
         System.out.println("Starts with C: " + partitionedByC.get(true).size() + " models");
         System.out.println("Doesn't start with C: " + partitionedByC.get(false).size() + " models");
+
+        // 8. [Advanced: Java 25 Stream Gatherers]
+        // Easily group items into "batches" or "windows" (e.g. batch size of 3)
+        System.out.println("\nGathering models into batches of 3:");
+        registry.stream()
+                .gather(Gatherers.windowFixed(3))
+                .forEach(batch -> {
+                    System.out.print("Batch: ");
+                    batch.forEach(m -> System.out.print(m.getName() + " | "));
+                    System.out.println();
+                });
     }
 
-    // MAIN METHOD: The Entry Point
-    public static void main(String[] args) {
+    // Concurrency with ExecutorService & Callables
+    public void trainAllConcurrently() {
+        System.out.println(ConsoleColors.YELLOW_BOLD + "\n--- Training Models Concurrently ---" + ConsoleColors.RESET);
+
+        // Create a thread pool with 3 threads
+        try (ExecutorService executor = Executors.newFixedThreadPool(3)) {
+
+            // Map our models to a list of Callable tasks
+            List<Callable<String>> tasks = registry.stream().map(model -> (Callable<String>) () -> {
+                model.train(); // Train the model
+                return ConsoleColors.GREEN + model.getName() + " finished training on thread "
+                        + Thread.currentThread().getName() + ConsoleColors.RESET;
+            }).collect(Collectors.toList());
+
+            // invokeAll processes all Callables in parallel
+            List<Future<String>> results = executor.invokeAll(tasks);
+
+            // Print the results as they finish
+            for (Future<String> result : results) {
+                System.out.println(result.get());
+            }
+
+        } catch (Exception e) {
+            System.out.println(ConsoleColors.RED + "Training interrupted: " + e.getMessage() + ConsoleColors.RESET);
+        }
+    }
+
+    // MAIN METHOD: The Entry Point (Java 25 - Instance Main Method)
+    void main() {
         RegistryManager manager = new RegistryManager();
         System.out.println(ConsoleColors.YELLOW_BOLD + "--- AI Model Registry ---" + ConsoleColors.RESET);
 
@@ -165,6 +208,9 @@ public class RegistryManager {
 
             // 9. Run Stream operations
             manager.streamOperations();
+
+            // 10. Test Concurrency
+            manager.trainAllConcurrently();
 
             // 6. Force an error to test Exception Handling
             try {

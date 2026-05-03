@@ -9,6 +9,12 @@ public final class LargeLanguageModel extends AIModel {
 
     // Constructor matching the Parent
     public LargeLanguageModel(String name, int parameterCount, ModelMetadata metadata) {
+        // [Advanced: Java 25 Flexible Constructor Bodies (JEP 513)]
+        // We can now validate arguments BEFORE calling super()!
+        if (parameterCount < 0) {
+            throw new IllegalArgumentException("Parameters cannot be negative!");
+        }
+        
         // super() calls the parent's constructor to set the name and type
         super(name, ModelType.TEXT);
         this.parameterCount = parameterCount;
