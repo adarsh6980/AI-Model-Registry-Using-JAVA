@@ -3,7 +3,11 @@ package registry;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Predicate; // <--- [Advanced- lambda]
+import java.util.stream.Collectors;
+import java.util.Comparator;
 
 public class RegistryManager {
 
@@ -54,6 +58,71 @@ public class RegistryManager {
         }
     }
 
+    // Streams & Sorting
+    // A method to sort the registry by the model's name alphabetically
+    public void printSortedModels() {
+        System.out.println(ConsoleColors.YELLOW_BOLD + "--- Sorted Models (Alphabetical) ---" + ConsoleColors.RESET);
+        registry.stream()
+                .sorted(Comparator.comparing(AIModel::getName))
+                .forEach(m -> System.out.println(ConsoleColors.CYAN + m.getName() + ConsoleColors.RESET));
+    }
+
+    // Stream Operations
+    public void streamOperations() {
+        System.out.println(ConsoleColors.YELLOW_BOLD + "\n--- Stream operations ---" + ConsoleColors.RESET);
+
+        // 1. count()
+        long totalModels = registry.stream().count();
+        System.out.println("Total models in registry: " + totalModels);
+
+        // 2. max() - Finding the model with the longest name
+        Optional<AIModel> longestNameModel = registry.stream()
+                .max(Comparator.comparingInt(m -> m.getName().length()));
+        longestNameModel.ifPresent(m -> System.out.println("Model with longest name: " + m.getName()));
+
+        // 3. anyMatch(), allMatch(), noneMatch()
+        boolean hasTextModels = registry.stream().anyMatch(m -> m.getType() == ModelType.TEXT);
+        boolean allAreText = registry.stream().allMatch(m -> m.getType() == ModelType.TEXT);
+        boolean noAudioModels = registry.stream().noneMatch(m -> m.getType() == ModelType.AUDIO);
+
+        System.out.println("Has TEXT models? " + hasTextModels);
+        System.out.println("Are ALL models TEXT? " + allAreText);
+        System.out.println("Are there ZERO AUDIO models? " + noAudioModels);
+
+        // 4. map(), distinct(), limit(), and forEach()
+        System.out.println("\nFirst 2 unique Model Types:");
+        registry.stream()
+                .map(AIModel::getType) // Extract just the type
+                .distinct() // Remove duplicates
+                .limit(2) // Only take the first 2
+                .forEach(type -> System.out.println(" - " + type));
+
+        // 5. filter() and findFirst()
+        System.out.println("\nFinding first model that starts with 'P':");
+        Optional<AIModel> pModel = registry.stream()
+                .filter(m -> m.getName().startsWith("P"))
+                .findFirst(); // Or findAny()
+        pModel.ifPresent(m -> System.out.println("Found: " + m.getName()));
+
+        // 6. collect() - groupingBy()
+        System.out.println("\nGrouping models by Type:");
+        Map<ModelType, List<AIModel>> modelsByType = registry.stream()
+                .collect(Collectors.groupingBy(AIModel::getType));
+
+        modelsByType.forEach((type, list) -> {
+            System.out.println(type + " Models:");
+            list.forEach(m -> System.out.println("  - " + m.getName()));
+        });
+
+        // 7. collect() - partitioningBy()
+        System.out.println("\nPartitioning models by 'starts with C':");
+        Map<Boolean, List<AIModel>> partitionedByC = registry.stream()
+                .collect(Collectors.partitioningBy(m -> m.getName().startsWith("C")));
+
+        System.out.println("Starts with C: " + partitionedByC.get(true).size() + " models");
+        System.out.println("Doesn't start with C: " + partitionedByC.get(false).size() + " models");
+    }
+
     // MAIN METHOD: The Entry Point
     public static void main(String[] args) {
         RegistryManager manager = new RegistryManager();
@@ -90,6 +159,12 @@ public class RegistryManager {
 
             // 7. Test the Advanced Lambda Expression
             manager.filterAndPrint(m -> m.getName().startsWith("G"));
+
+            // 8. Test Streams and Sorting
+            manager.printSortedModels();
+
+            // 9. Run Stream operations
+            manager.streamOperations();
 
             // 6. Force an error to test Exception Handling
             try {
